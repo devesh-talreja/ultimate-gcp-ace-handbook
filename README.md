@@ -12,7 +12,8 @@
 This study handbook and comprehensive revision notes were compiled during preparation for the **Google Cloud Associate Cloud Engineer (ACE)** certification, updated specifically for the **post-June 30, 2026 exam refresh**. These notes serve as a high-yield study companion to reinforce core concepts, memorize key command-line syntax, and highlight tricky exam traps.
 
 What makes these notes highly effective:
-* **Exam-Focused Callouts:** Styled with native GitHub blockquote alerts for clear visual hierarchy: green **Exam Tips** `[!TIP]`, blue **AWS ↔ GCP Tips** `[!NOTE]`, red **Common Mistakes** `[!CAUTION]`, and purple **Under the Hood** `[!IMPORTANT]` insights.
+* **Exam-Focused Callouts:** Styled with native GitHub blockquote alerts for clear visual hierarchy: green **Exam Tips** `[!TIP]` 💡, blue **AWS ↔ GCP Tips** `[!NOTE]` 📘, red **Common Mistakes** `[!CAUTION]` ⚠️, and purple **Under the Hood** `[!IMPORTANT]` ⚙️ insights.
+* **40+ Exam-Style Practice Questions:** Features forty original practice scenarios with full collapsible explanations to test your decision logic before the real exam.
 * **Smart Modularization:** Dense architectural topics (Compute, GKE, Storage, Operations, and Practice Questions) are divided into bite-sized, readable modules rather than single, massive pages.
 * **Fully Formatted Data:** Utilizes clean comparison tables, command lists, and step-by-step logic workflows.
 * **Rosetta Stone Reference:** Contains a full-service translation map between AWS and GCP for rapid mental model mapping.
@@ -90,3 +91,7 @@ Contributions are welcome! If you spot a typo, an outdated CLI flag, or have a b
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Happy Learning and best of luck conquering the GCP ACE exam! 🚀 Gambare! - Devesh Talreja

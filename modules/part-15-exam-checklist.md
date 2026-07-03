@@ -19,7 +19,8 @@
 - Flag and skip anything you're unsure of on first pass — come back with fresh eyes; don't burn your 120 minutes stuck on one question.
 - For multi-select questions, re-read the question stem for “select two/three” — easy to lose an easy mark by under- or over-selecting.
 - Trust your prepared decision frameworks (Part 3.1's compute tree, Part 3.5's data matrix, Part 6's Rosetta Stone) over a gut AWS-instinct reaction.
-> 💡 **Exam Tip:** You've got this. Between your AWS SAA foundation and this handbook's GCP-specific depth, you're better prepared than most first-time ACE candidates. Good luck — and once you pass, come back to Part 14 and start building.
+> [!TIP]
+> **Exam Tip:** You've got this. Between your AWS SAA foundation and this handbook's GCP-specific depth, you're better prepared than most first-time ACE candidates. Good luck — and once you pass, come back to Part 14 and start building.
 
 ---
 

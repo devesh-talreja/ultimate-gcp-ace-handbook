@@ -15,7 +15,8 @@ ACE is a launchpad, not a destination. Here's how to convert this knowledge into
 - Multi-service GKE deployment with Workload Identity Federation: Deploy a real multi-container app to GKE Autopilot, wire least-privilege access via Workload Identity Federation to BigQuery/Cloud Storage, and add an agent (e.g., using Antigravity or the ADK) that can query the app's own data — a strong “I understand both security and AI” signal for interviews.
 - Cost/ops automation agent: Build a small Cloud Run function or agent that consumes Active Assist recommendations and Billing budget alerts via Pub/Sub, then posts a digest to Slack/email — demonstrates FinOps + automation + AI-assisted ops thinking together.
 - Domain-specific analytics + agent (any domain you're genuinely interested in — sports, finance, e-commerce, health): ingest live/public data via Pub/Sub or scheduled Cloud Run jobs, store in BigQuery/Firestore, and layer a Gemini-powered natural-language query or insight agent on top. This is a great “tell me about a project” interview centerpiece because it touches data engineering, backend, and applied AI in one coherent story.
-> ⚙️ **Under the Hood:** Recruiters and interview panels increasingly ask candidates to walk through an architecture diagram they built themselves — use Application Design Center or a simple diagram to document any project above; it doubles as interview material and hands-on practice with the exact AI-assisted tooling now tested on ACE.
+> [!IMPORTANT]
+> **Under the Hood:** Recruiters and interview panels increasingly ask candidates to walk through an architecture diagram they built themselves — use Application Design Center or a simple diagram to document any project above; it doubles as interview material and hands-on practice with the exact AI-assisted tooling now tested on ACE.
 
 ## 14.3 Career Path: ACE → Where Next
 

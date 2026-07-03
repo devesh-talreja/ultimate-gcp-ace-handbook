@@ -1,4 +1,4 @@
-# ☁️ Google Cloud Associate Cloud Engineer (ACE) | Ultimate Study Handbook (2026 Update)
+# ☁️ Google Cloud Associate Cloud Engineer (ACE) | Ultimate Study Handbook/Cheatsheet (Updated: July 2026)
 
 [![GCP](https://img.shields.io/badge/Google%20Cloud-ACE-blue?style=flat&logo=googlecloud)](https://cloud.google.com/learn/certification/cloud-engineer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)

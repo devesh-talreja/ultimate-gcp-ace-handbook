@@ -10,9 +10,11 @@
 - Custom mode VPC: you define subnets, regions, and CIDR ranges yourself — recommended for production (matches objective 2.3's explicit “custom mode VPC” language).
 - Shared VPC: a host project owns the VPC/subnets and shares them with one or more service projects — centralizes network administration while letting app teams deploy resources into their own projects using the shared network. IAM for network admin stays with the host project's network admins.
 - VPC Network Peering: connects two VPCs (even across projects/orgs) privately using internal IPs, non-transitive (if A peers with B and B peers with C, A cannot reach C through B).
-> 📘 **AWS ↔ GCP Tip:** VPC (global) is the single biggest networking mindset shift from AWS — re-read this until it's intuitive. Shared VPC ↔ AWS VPC sharing (RAM-shared subnets) — conceptually similar (central network, app teams deploy into it). VPC Peering ↔ AWS VPC Peering, same non-transitive limitation in both clouds.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** VPC (global) is the single biggest networking mindset shift from AWS — re-read this until it's intuitive. Shared VPC ↔ AWS VPC sharing (RAM-shared subnets) — conceptually similar (central network, app teams deploy into it). VPC Peering ↔ AWS VPC Peering, same non-transitive limitation in both clouds.
 
-> 💡 **Exam Tip:** Shared VPC vs. VPC Peering — pick Shared VPC when you want centralized network control/policy across many teams/projects in one org (hub-and-spoke-ish, admin-controlled). Pick Peering when you need to connect a smaller number of independently-managed VPCs (including across different orgs) without centralizing admin control.
+> [!TIP]
+> **Exam Tip:** Shared VPC vs. VPC Peering — pick Shared VPC when you want centralized network control/policy across many teams/projects in one org (hub-and-spoke-ish, admin-controlled). Pick Peering when you need to connect a smaller number of independently-managed VPCs (including across different orgs) without centralizing admin control.
 
 ### Firewalls: VPC Firewall Rules vs. Cloud NGFW Policies
 
@@ -21,9 +23,11 @@
 - Cloud NGFW tiers: Essentials (free — standard L3/L4 rules by IP/port/protocol, i.e. what classic VPC firewall rules already offered), Standard (adds FQDN objects + threat intelligence feeds), Enterprise (adds Layer 7 URL filtering + intrusion detection/prevention — full “next-gen” inspection).
 - Hierarchical firewall policies: applied at Org/Folder level, enforced on all projects/VPCs beneath — used for org-wide security baselines (e.g., “never allow inbound from the internet to port 22 anywhere”) that individual project teams cannot override.
 - Tags (the modern “secure Tags” — IAM-governed key:value resource tags) and service accounts can both be used as firewall rule/policy targets and sources, letting you write identity-based rules (“allow traffic only from resources running as this service account”) instead of brittle IP-based rules.
-> 💡 **Exam Tip:** Hierarchy of enforcement (all evaluated together, most restrictive wins for a given priority tier): Hierarchical firewall policies (Org/Folder) → Global/Regional network firewall policies → VPC firewall rules, each with their own priority ordering. Know that hierarchical policies exist specifically so a central security team can enforce rules app teams can't bypass.
+> [!TIP]
+> **Exam Tip:** Hierarchy of enforcement (all evaluated together, most restrictive wins for a given priority tier): Hierarchical firewall policies (Org/Folder) → Global/Regional network firewall policies → VPC firewall rules, each with their own priority ordering. Know that hierarchical policies exist specifically so a central security team can enforce rules app teams can't bypass.
 
-> 📘 **AWS ↔ GCP Tip:** VPC firewall rules ↔ Security Groups (though GCP rules attach to the network/Tags/SAs, not to individual ENIs like an SG does) + a bit of NACLs (since GCP firewall rules are stateful like SGs but evaluated more like a flat rule list). Cloud NGFW Enterprise (L7, IDS/IPS, URL filtering) ↔ AWS Network Firewall. There's no exact single AWS analogue for the Essentials/Standard/Enterprise tiering — that's a GCP-specific packaging.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** VPC firewall rules ↔ Security Groups (though GCP rules attach to the network/Tags/SAs, not to individual ENIs like an SG does) + a bit of NACLs (since GCP firewall rules are stateful like SGs but evaluated more like a flat rule list). Cloud NGFW Enterprise (L7, IDS/IPS, URL filtering) ↔ AWS Network Firewall. There's no exact single AWS analogue for the Essentials/Standard/Enterprise tiering — that's a GCP-specific packaging.
 
 ### Network Connectivity
 
@@ -35,7 +39,8 @@
 | VPC Network Peering | Private, internal-IP connectivity between two VPCs | Connecting VPCs (including across projects/orgs) without traffic touching the internet |
 | Cross-Cloud Interconnect | Direct connection to another cloud provider (AWS/Azure/etc.) | Multi-cloud architectures needing private, high-bandwidth cloud-to-cloud links |
 
-> 📘 **AWS ↔ GCP Tip:** Cloud VPN ↔ AWS Site-to-Site VPN. Dedicated/Partner Interconnect ↔ AWS Direct Connect (Dedicated ↔ Dedicated Connection, Partner ↔ Hosted Connection via an APN partner). The naming logic maps closely once you see the pattern.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud VPN ↔ AWS Site-to-Site VPN. Dedicated/Partner Interconnect ↔ AWS Direct Connect (Dedicated ↔ Dedicated Connection, Partner ↔ Hosted Connection via an APN partner). The naming logic maps closely once you see the pattern.
 
 ### Load Balancers — The Full Decision Tree
 
@@ -51,7 +56,8 @@
 
 - Decision shortcut: HTTP(S) traffic → Application (L7) LB (choose Global vs Regional vs Internal by exposure/scope needed). Non-HTTP TCP/UDP, need client IP preserved or protocol passthrough → Network (passthrough) LB. Non-HTTP TCP but want a single global anycast IP and/or TLS termination at Google's edge → Proxy LB (SSL or TCP).
 - All Google Cloud load balancers are software-defined (no pre-warming needed like classic ELB, though extreme traffic spikes can still benefit from a documented “spike prep” in edge cases) and integrate natively with MIGs, GKE Ingress/Gateway, Cloud Run, and Cloud Storage buckets (for the Global external LB, serving static content directly).
-> 📘 **AWS ↔ GCP Tip:** Global external Application LB ↔ no single AWS equivalent (closest: CloudFront + ALB, since AWS ALBs are always regional) — GCP's single global L7 IP for HTTP(S) is a genuine differentiator. External passthrough Network LB ↔ AWS NLB. Internal LBs ↔ AWS internal ALB/NLB. There's no AWS analogue exactly matching Proxy LB's global-TCP-with-TLS-termination niche.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Global external Application LB ↔ no single AWS equivalent (closest: CloudFront + ALB, since AWS ALBs are always regional) — GCP's single global L7 IP for HTTP(S) is a genuine differentiator. External passthrough Network LB ↔ AWS NLB. Internal LBs ↔ AWS internal ALB/NLB. There's no AWS analogue exactly matching Proxy LB's global-TCP-with-TLS-termination niche.
 
 ### Network Service Tiers
 
@@ -60,7 +66,8 @@
 | Premium Tier | Traffic enters/exits via Google's global private backbone as close to the source/destination as possible (cold-potato routing) | Best performance, lowest latency/loss, production internet-facing workloads — default tier |
 | Standard Tier | Traffic uses regional networking/public internet more like a typical ISP path (hot-potato routing), only within the same region as the resource | Lower cost, latency-tolerant/dev/test workloads, same-region-only traffic |
 
-> 💡 **Exam Tip:** Standard Tier is cheaper but has restrictions (e.g., generally not usable with global load balancers, no multi-region acceleration) — a classic “cost optimization” exam scenario: “dev/test workload, cost is the top priority, latency doesn't matter” → Standard Tier.
+> [!TIP]
+> **Exam Tip:** Standard Tier is cheaper but has restrictions (e.g., generally not usable with global load balancers, no multi-region acceleration) — a classic “cost optimization” exam scenario: “dev/test workload, cost is the top priority, latency doesn't matter” → Standard Tier.
 
 ## 3.11 Planning & Implementing with Tooling (Objective 2.4)
 
@@ -73,7 +80,8 @@
 | Fabric FAST | Google's opinionated, Terraform-based reference framework/blueprints for landing zones (multi-project, multi-env, secure-by-default org setup) | Accelerates org-level, best-practice foundation setup rather than being a tool from scratch |
 | Helm | Kubernetes package manager — templated manifests (“charts”) for deploying apps onto GKE | Not GCP-specific (open-source K8s ecosystem tool), but explicitly named in the ACE guide for deploying to GKE |
 
-> 📘 **AWS ↔ GCP Tip:** Terraform ↔ Terraform (same tool, different provider) or CloudFormation/CDK. Config Connector ↔ AWS Controllers for Kubernetes (ACK) — same idea, different cloud. Fabric FAST ↔ AWS Control Tower / Landing Zone Accelerator (opinionated, best-practice foundational setup).
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Terraform ↔ Terraform (same tool, different provider) or CloudFormation/CDK. Config Connector ↔ AWS Controllers for Kubernetes (ACK) — same idea, different cloud. Fabric FAST ↔ AWS Control Tower / Landing Zone Accelerator (opinionated, best-practice foundational setup).
 
 ### AI-Assisted Planning & Implementation (new for this exam version)
 
@@ -84,9 +92,11 @@
 | Gemini Cloud Assist | Google Cloud's built-in AI assistant across the console — helps design architectures, generate IaC, explain errors, and (via “investigations”) perform root-cause analysis on production issues; surfaces inside Cloud Hub and Cloud Monitoring too |
 | Application Design Center | A visual, AI-assisted tool for designing application architectures on Google Cloud and generating the deployable Terraform/config to match the diagram |
 
-> 💡 **Exam Tip:** For ACE you won't need to *operate* these tools deeply — you need to recognize what each one is for if a scenario says “visually design an architecture and generate matching IaC” (Application Design Center) vs. “generate an implementation plan and write/deploy code end-to-end from a prompt” (Antigravity) vs. “get an AI explanation of a production issue in the console” (Gemini Cloud Assist).
+> [!TIP]
+> **Exam Tip:** For ACE you won't need to *operate* these tools deeply — you need to recognize what each one is for if a scenario says “visually design an architecture and generate matching IaC” (Application Design Center) vs. “generate an implementation plan and write/deploy code end-to-end from a prompt” (Antigravity) vs. “get an AI explanation of a production issue in the console” (Gemini Cloud Assist).
 
-> ⚙️ **Under the Hood:** This objective reflects a real industry shift: agentic AI is becoming a first-class part of the cloud engineer's toolchain, not just a chatbot on the side. Antigravity's MCP-based database connections and Gemini Cloud Assist's investigations both point at the same trend — AI agents that can *act* on infrastructure, not just answer questions about it. Worth exploring hands-on beyond the exam (see Part 13).
+> [!IMPORTANT]
+> **Under the Hood:** This objective reflects a real industry shift: agentic AI is becoming a first-class part of the cloud engineer's toolchain, not just a chatbot on the side. Antigravity's MCP-based database connections and Gemini Cloud Assist's investigations both point at the same trend — AI agents that can *act* on infrastructure, not just answer questions about it. Worth exploring hands-on beyond the exam (see Part 13).
 
 ## 3.12 Domain 2 Quick-Fire Recap
 

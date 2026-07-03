@@ -21,7 +21,8 @@ This handbook is designed as a high-yield study companion. It is specifically op
 | **Prerequisites** | None formal (Google recommends 6+ months of hands-on GCP experience) |
 | **Retake Policy** | 14-day wait after 1st fail, 60-day after 2nd, 365-day after 3rd+ |
 
-> 💡 **Exam Tip:** This is a scenario-driven exam — most questions describe a business/technical situation and ask “what should you do?” rather than testing raw memorization. Practice thinking in terms of trade-offs (cost vs. ops overhead vs. control), not just facts.
+> [!TIP]
+> **Exam Tip:** This is a scenario-driven exam — most questions describe a business/technical situation and ask “what should you do?” rather than testing raw memorization. Practice thinking in terms of trade-offs (cost vs. ops overhead vs. control), not just facts.
 
 ---
 
@@ -34,7 +35,8 @@ This handbook is designed as a high-yield study companion. It is specifically op
 | **3. Ensuring successful operation of a cloud solution** | ~30% | Day-2 operations: manage compute/storage/network, monitoring & logging |
 | **4. Configuring access and security** | ~20% | IAM policies, roles, service accounts, Workload/Workforce Identity Federation |
 
-> 💡 **Exam Tip:** Domains 2 + 3 = 60% of the exam. If you only have time to master two areas deeply, make it compute/storage/network design (Domain 2) and monitoring/logging + day-2 ops (Domain 3). Domain 1 and 4 are narrower but very detail-heavy (IAM nuances) — easy marks if you drill them.
+> [!TIP]
+> **Exam Tip:** Domains 2 + 3 = 60% of the exam. If you only have time to master two areas deeply, make it compute/storage/network design (Domain 2) and monitoring/logging + day-2 ops (Domain 3). Domain 1 and 4 are narrower but very detail-heavy (IAM nuances) — easy marks if you drill them.
 
 ---
 

@@ -65,6 +65,11 @@ What makes these notes highly effective:
     * Complete the official [Google Cloud Skills Boost: GCP Associate Cloud Engineer Learning Path](https://www.cloudskillsboost.google/paths/11) to gain invaluable hands-on lab experience.
     * It is also highly recommended to drill mock practice exams to build speed and test your knowledge against realistic scenario-based questions before the actual test.
 
+---
+### Navigation
+
+Every section file has **← prev | README | next →** links at the bottom so you can move through sections without coming back to this page.
+
 ⭐ **Star this Repo:** If this handbook helps you in your GCP journey, please give it a star and bookmark it so you can easily return to it during your revision rounds!
 
 ---
@@ -81,7 +86,7 @@ To supplement your learning, bookmark these popular and official resources:
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you spot a typo, an outdated CLI flag, or have a better explanation/mnemonic for a GKE or IAM concept, please:
+Contributions are welcome! If you spot a typo, an outdated CLI flag, or have a better explanation/mnemonic to add, please:
 1. Fork this repository.
 2. Create a feature branch.
 3. Submit a Pull Request.
@@ -94,4 +99,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Happy Learning and best of luck conquering the GCP ACE exam! 🚀 Gambare! - Devesh Talreja
+**Happy Learning and best of luck conquering the GCP ACE exam! 🚀 Gambare!** *- Devesh Talreja*

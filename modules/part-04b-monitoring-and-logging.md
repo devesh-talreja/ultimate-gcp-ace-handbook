@@ -10,7 +10,8 @@
 - Alerting policies: define a condition on a metric (threshold, rate of change, absence of data) + notification channels (email, SMS, Slack, PagerDuty, Pub/Sub, webhook) — fires an incident when the condition is met, auto-resolves when it clears.
 - Custom metrics: (a) log-based metrics — derive a metric by counting/extracting values from log entries matching a filter (e.g., count of ERROR-level log lines); (b) application/custom metrics — your app writes metrics directly via the Monitoring API/client libraries (or OpenTelemetry) for anything platform metrics don't cover (business KPIs, custom latencies).
 - Uptime checks: synthetic, black-box probes hitting an HTTP(S)/TCP endpoint from multiple global locations — detect “is it up at all” independent of internal metrics.
-> 📘 **AWS ↔ GCP Tip:** Cloud Monitoring ↔ CloudWatch (Metrics + Alarms + Dashboards). Log-based metrics ↔ CloudWatch Metric Filters on Log Groups. Uptime checks ↔ CloudWatch Synthetics / Route 53 Health Checks.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud Monitoring ↔ CloudWatch (Metrics + Alarms + Dashboards). Log-based metrics ↔ CloudWatch Metric Filters on Log Groups. Uptime checks ↔ CloudWatch Synthetics / Route 53 Health Checks.
 
 ### Audit Logs — Know All Four Types
 
@@ -21,11 +22,13 @@
 | System Event | Google-system-initiated changes to resources (e.g., a live migration, an automatic GKE node repair) | Yes, always on, cannot be disabled |
 | Policy Denied | Requests denied because of a security policy violation (e.g., VPC Service Controls, IAM Deny policy) | Yes, always on, cannot be disabled |
 
-> ⚠️ **Common Mistake:** Data Access logs being off by default (BigQuery aside) is a very common exam trap: “we need to know who read this sensitive object/table” and the naive assumption is “it's already logged” — the correct action is usually explicitly enable Data Access audit logs for that service first.
+> [!CAUTION]
+> **Common Mistake:** Data Access logs being off by default (BigQuery aside) is a very common exam trap: “we need to know who read this sensitive object/table” and the naive assumption is “it's already logged” — the correct action is usually explicitly enable Data Access audit logs for that service first.
 
 - VPC Flow Logs: sampled records of IP-level network flows to/from VM interfaces (5-tuple, bytes/packets, latency) — enabled per-subnet, exported like any log to Logging/BigQuery/Pub/Sub. Used for network forensics, traffic analysis, cost attribution, security investigation.
 - Firewall Rules Logging: per-rule toggle that logs every connection the rule evaluates (allowed or denied) — used to audit rule effectiveness/usage or debug “why is my traffic being blocked.”
-> 📘 **AWS ↔ GCP Tip:** Cloud Audit Logs ↔ CloudTrail (the 4-way split into Admin Activity/Data Access/System Event/Policy Denied has no exact CloudTrail equivalent — CloudTrail just has Management vs. Data events, a 2-way split). VPC Flow Logs ↔ VPC Flow Logs (same name, same idea!). Firewall Rules Logging ↔ no exact SG equivalent in AWS (closest: VPC Flow Logs analysis, since Security Groups don't have a native per-rule hit logger).
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud Audit Logs ↔ CloudTrail (the 4-way split into Admin Activity/Data Access/System Event/Policy Denied has no exact CloudTrail equivalent — CloudTrail just has Management vs. Data events, a 2-way split). VPC Flow Logs ↔ VPC Flow Logs (same name, same idea!). Firewall Rules Logging ↔ no exact SG equivalent in AWS (closest: VPC Flow Logs analysis, since Security Groups don't have a native per-rule hit logger).
 
 ### Log Export, Buckets, Analytics, Routing
 
@@ -33,9 +36,11 @@
 - Log Buckets: where logs are actually stored within Cloud Logging — every project has a _Required bucket (Admin Activity/System Event/Access Transparency, 400-day retention, cannot be disabled/modified) and a _Default bucket (everything else, 30-day default retention, configurable, can be disabled to save cost). You can also create custom log buckets with custom retention.
 - Log Analytics: lets you run SQL queries directly against a log bucket (no separate export to BigQuery required) — upgrade a log bucket to enable this.
 - Exporting logs to external systems: create a sink with a Pub/Sub destination, then a subscriber (Dataflow, Cloud Run function, or a 3rd-party/on-prem SIEM connector) consumes and forwards — the standard pattern for “send our GCP logs to our on-prem Splunk/SIEM.”
-> 💡 **Exam Tip:** “Send logs to an on-premises SIEM” → Log sink → Pub/Sub → (Dataflow or a forwarder) → on-prem. “Run ad-hoc SQL analysis on logs without duplicating data into BigQuery” → Log Analytics on a log bucket. “Keep logs joined with other business data long-term for BI” → export sink to BigQuery.
+> [!TIP]
+> **Exam Tip:** “Send logs to an on-premises SIEM” → Log sink → Pub/Sub → (Dataflow or a forwarder) → on-prem. “Run ad-hoc SQL analysis on logs without duplicating data into BigQuery” → Log Analytics on a log bucket. “Keep logs joined with other business data long-term for BI” → export sink to BigQuery.
 
-> 📘 **AWS ↔ GCP Tip:** Log Router + Sinks ↔ CloudWatch Logs subscription filters / Kinesis Firehose delivery. Log Buckets ↔ CloudWatch Log Groups. Log Analytics (SQL on logs in place) ↔ CloudWatch Logs Insights (query language differs — GCP's is closer to real SQL).
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Log Router + Sinks ↔ CloudWatch Logs subscription filters / Kinesis Firehose delivery. Log Buckets ↔ CloudWatch Log Groups. Log Analytics (SQL on logs in place) ↔ CloudWatch Logs Insights (query language differs — GCP's is closer to real SQL).
 
 ### Viewing & Filtering Logs
 
@@ -51,13 +56,15 @@
 | Query Insights | Cloud SQL/AlloyDB feature — visualize query performance over time, top queries by load, identify slow/expensive queries down to the query plan |
 | Index Advisor | Cloud SQL/AlloyDB feature — recommends missing indexes based on observed query patterns to improve performance |
 
-> 📘 **AWS ↔ GCP Tip:** Cloud Trace ↔ AWS X-Ray. Cloud Profiler ↔ CodeGuru Profiler. Query Insights ↔ RDS Performance Insights. Index Advisor ↔ no direct managed-RDS equivalent (closer to a DBA doing manual EXPLAIN analysis, or Redshift Advisor's recommendations for warehouse workloads) — a case where GCP bundles more DBA-assist tooling natively into the managed database experience.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud Trace ↔ AWS X-Ray. Cloud Profiler ↔ CodeGuru Profiler. Query Insights ↔ RDS Performance Insights. Index Advisor ↔ no direct managed-RDS equivalent (closer to a DBA doing manual EXPLAIN analysis, or Redshift Advisor's recommendations for warehouse workloads) — a case where GCP bundles more DBA-assist tooling natively into the managed database experience.
 
 ### Personalized Service Health
 
 - Shows Google Cloud service incidents/outages that are actually relevant to your projects (not the generic public status page) — filtered by the products/regions you actually use.
 - Logs incidents into Cloud Logging so you can alert on them (e.g., “notify me if a GCP-side incident affects my BigQuery datasets in asia-south1”) — distinct from Cloud Monitoring alerts, which watch *your* resource metrics, not Google's own service health.
-> 📘 **AWS ↔ GCP Tip:** ↔ AWS Personal Health Dashboard (PHD) — essentially the same concept and even a similar name.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** ↔ AWS Personal Health Dashboard (PHD) — essentially the same concept and even a similar name.
 
 ### Ops Agent & Managed Service for Prometheus
 
@@ -67,22 +74,26 @@ gcloud compute instances ops-agents policies create to deploy fleet-wide via pol
 ```
 
 - Google Cloud Managed Service for Prometheus: fully managed, Prometheus-compatible metrics backend — lets teams keep using PromQL/Prometheus exporters/Grafana while Google manages storage/scaling/HA of the metrics backend (no self-hosted Prometheus server to run).
-> 📘 **AWS ↔ GCP Tip:** Ops Agent ↔ the CloudWatch unified agent (also merged metrics+logs collection into one agent over time — same industry pattern). Managed Service for Prometheus ↔ Amazon Managed Service for Prometheus (AMP) — near-identical product, near-identical name.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Ops Agent ↔ the CloudWatch unified agent (also merged metrics+logs collection into one agent over time — same industry pattern). Managed Service for Prometheus ↔ Amazon Managed Service for Prometheus (AMP) — near-identical product, near-identical name.
 
 ### Gemini Cloud Assist for Monitoring & Active Assist
 
 - Gemini Cloud Assist investigations: AI-driven root-cause-analysis — point it at an incident/alert and it correlates logs, metrics, traces, and recent changes to propose likely causes and next steps, surfaced in Cloud Monitoring and Cloud Hub.
 - Active Assist: Google's proactive recommendation engine family — e.g., idle VM recommender (flags VMs with near-zero utilization to downsize/delete), rightsizing recommender (suggests a better machine type based on actual usage), IAM recommender (flags over-privileged roles and suggests tighter ones), firewall insights (flags shadowed/overly-permissive/unused rules), committed use discount recommender.
-> 💡 **Exam Tip:** “We want proactive suggestions to right-size over-provisioned VMs and remove unused IAM permissions, with minimal manual effort” → Active Assist recommenders, not a custom-built cost/IAM audit script.
+> [!TIP]
+> **Exam Tip:** “We want proactive suggestions to right-size over-provisioned VMs and remove unused IAM permissions, with minimal manual effort” → Active Assist recommenders, not a custom-built cost/IAM audit script.
 
-> 📘 **AWS ↔ GCP Tip:** Active Assist ↔ AWS Compute Optimizer (rightsizing) + IAM Access Analyzer (unused permissions) + Trusted Advisor, bundled into one Google-native recommendation surface across the console.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Active Assist ↔ AWS Compute Optimizer (rightsizing) + IAM Access Analyzer (unused permissions) + Trusted Advisor, bundled into one Google-native recommendation surface across the console.
 
 ### Cloud Hub
 
 - A centralized DevOps/SRE operations dashboard bringing together, in one place: active events (incidents + planned maintenance), health data (Monitoring alerts + metrics), security/compliance posture (from Security Command Center), capacity data (quota + Compute Engine usage), App Hub application deployment status, and open support cases — all correlatable and viewable as an interactive topology graph.
 - Works at the project or App Hub application level (App Hub lets you logically group resources across projects into one “application” for unified viewing).
 - This is the natural home for Gemini Cloud Assist investigations during troubleshooting — you can kick off or review an AI-driven RCA directly from Cloud Hub's Health & Troubleshooting page.
-> 💡 **Exam Tip:** If a scenario describes needing one dashboard that spans health + security + cost + support + deployments for an application spanning multiple projects — that's Cloud Hub (with App Hub grouping), not a custom-built Monitoring dashboard stitched together manually.
+> [!TIP]
+> **Exam Tip:** If a scenario describes needing one dashboard that spans health + security + cost + support + deployments for an application spanning multiple projects — that's Cloud Hub (with App Hub grouping), not a custom-built Monitoring dashboard stitched together manually.
 
 ## 4.5 Domain 3 Quick-Fire Recap
 

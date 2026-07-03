@@ -11,7 +11,8 @@ Covers: 1.1 Setting up cloud projects & accounts, 1.2 Managing billing configura
 gcloud projects create PROJECT_ID --folder=FOLDER_ID --organization=ORG_ID
 ```
 
-> 💡 **Exam Tip:** Know the command-line trio: gcloud organizations list, gcloud resource-manager folders create --display-name=X --organization=Y, gcloud projects create. The exam likes asking “you need to create X under Y with the fewest steps” — these direct commands beat multi-step console click-paths.
+> [!TIP]
+> **Exam Tip:** Know the command-line trio: gcloud organizations list, gcloud resource-manager folders create --display-name=X --organization=Y, gcloud projects create. The exam likes asking “you need to create X under Y with the fewest steps” — these direct commands beat multi-step console click-paths.
 
 ## 2.2 Applying Organization Policies to the Hierarchy
 
@@ -34,7 +35,8 @@ gcloud projects add-iam-policy-binding PROJECT_ID --member='user:x@y.com' --role
 - Manual: create users/groups in the Admin Console (admin.google.com).
 - Automated: sync from an existing on-prem/Azure AD (Entra ID) via Google Cloud Directory Sync (GCDS), or via SCIM-based provisioning, or via Workforce Identity Federation (federate an external IdP directly, no user copy needed — see 2.11).
 - Always assign IAM roles to Google Groups, not individual users — easier onboarding/offboarding, matches least-privilege-at-scale best practice tested repeatedly on the exam.
-> 📘 **AWS ↔ GCP Tip:** Cloud Identity ↔ roughly AWS IAM Identity Center (SSO) + a directory, though Cloud Identity is a distinct product from Google Workspace-lite. Groups-over-users is the same best practice AWS teaches (IAM Groups / SSO Permission Sets).
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud Identity ↔ roughly AWS IAM Identity Center (SSO) + a directory, though Cloud Identity is a distinct product from Google Workspace-lite. Groups-over-users is the same best practice AWS teaches (IAM Groups / SSO Permission Sets).
 
 ## 2.5 Enabling APIs Within Projects
 
@@ -48,7 +50,8 @@ gcloud services list --available / --enabled
 ```
 
 - Enabling an API does not by itself grant permissions — you still need IAM roles. Both conditions must be true: API enabled AND caller has the IAM permission.
-> ⚠️ **Common Mistake:** Classic trap question: “User has Editor role but gets a 403/permission error calling a new API.” First suspect: the API isn't enabled on the project, not an IAM problem. Always check both.
+> [!CAUTION]
+> **Common Mistake:** Classic trap question: “User has Editor role but gets a 403/permission error calling a new API.” First suspect: the API isn't enabled on the project, not an IAM problem. Always check both.
 
 ---
 

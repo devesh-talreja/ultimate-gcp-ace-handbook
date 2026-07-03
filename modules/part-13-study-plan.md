@@ -14,7 +14,7 @@ You're not starting from zero — AWS SAA gives you the cloud vocabulary and men
 | 6 | Full review: Part 6–11 (Rosetta Stone, scenarios, confusables, revision notes) + take 2–3 full-length practice exams | Consistently scoring 80%+ on practice exams |
 
 > [!TIP]
-> **Exam Tip:** With an AWS SAA already in hand, 4–5 focused weeks is realistic instead of the 8–10 weeks Google suggests for complete beginners — but don't skip hands-on labs. The exam's scenario-driven style punishes “I read about it” over “I clicked through it once.”
+> 💡 **Exam Tip:** With an AWS SAA already in hand, 4–5 focused weeks is realistic instead of the 8–10 weeks Google suggests for complete beginners — but don't skip hands-on labs. The exam's scenario-driven style punishes “I read about it” over “I clicked through it once.”
 
 ## 13.2 Hands-On Labs That Matter Most
 
@@ -46,7 +46,7 @@ You're not starting from zero — AWS SAA gives you the cloud vocabulary and men
 
 ## 13.4 Mindset Traps Specific to AWS Veterans
 
-- Don't assume 1:1 naming parity — use Part 6 (Rosetta Stone) to check, don't guess from vibes.
+- **Don't assume 1:1 naming parity** — use Part 6 (Rosetta Stone) to check, don't guess from vibes.
 - Don't design VPCs “AWS-style” (one VPC per region) — lean into GCP's global VPC model.
 - Don't assume IAM “deny” exists in the default allow-policy model — re-read Part 5.1 until it's automatic.
 - Don't under-rate GKE Autopilot as “just EKS Fargate” and skip it — it's disproportionately tested.

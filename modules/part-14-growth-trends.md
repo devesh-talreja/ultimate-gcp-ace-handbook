@@ -6,17 +6,17 @@ ACE is a launchpad, not a destination. Here's how to convert this knowledge into
 
 - The exam itself now tests Gemini CLI, Google Antigravity, Gemini Cloud Assist, and Application Design Center — a clear signal that “cloud engineer” and “AI-tooling-fluent engineer” are converging job descriptions, not separate tracks.
 - Agent Runtime (Gemini Enterprise Agent Platform) becoming an ACE-level compute option means deploying and operating AI agents is now considered baseline cloud engineering skill, not a specialized ML-only concern.
-- Real hiring signal in 2026: teams increasingly want engineers who can provision infrastructure AND wire it up to an agentic AI workflow — e.g., a GKE-hosted app with an integrated Gemini-powered feature, deployed and monitored with AI-assisted tooling.
+- **Real hiring signal in 2026:** teams increasingly want engineers who can provision infrastructure AND wire it up to an agentic AI workflow — e.g., a GKE-hosted app with an integrated Gemini-powered feature, deployed and monitored with AI-assisted tooling.
 
 ## 14.2 Project Ideas That Combine ACE Skills + Agentic AI (Portfolio-Worthy)
 
-- IaC-deployed agentic backend: Use Terraform to provision Cloud Run + Pub/Sub + Firestore, then deploy a Gemini-powered agent (via Agent Runtime or a custom Cloud Run service using the Gemini API) that reacts to events — demonstrates both infra-as-code discipline and AI integration.
-- Observability for an AI pipeline: Build a data pipeline (Pub/Sub → Dataflow → BigQuery) feeding an AI feature, then instrument it fully with Cloud Monitoring custom metrics, log-based alerting, and a Cloud Hub view — shows you can operate AI systems in production, not just build demos.
+- **IaC-deployed agentic backend:** Use Terraform to provision Cloud Run + Pub/Sub + Firestore, then deploy a Gemini-powered agent (via Agent Runtime or a custom Cloud Run service using the Gemini API) that reacts to events — demonstrates both infra-as-code discipline and AI integration.
+- **Observability for an AI pipeline:** Build a data pipeline (Pub/Sub → Dataflow → BigQuery) feeding an AI feature, then instrument it fully with Cloud Monitoring custom metrics, log-based alerting, and a Cloud Hub view — shows you can operate AI systems in production, not just build demos.
 - Multi-service GKE deployment with Workload Identity Federation: Deploy a real multi-container app to GKE Autopilot, wire least-privilege access via Workload Identity Federation to BigQuery/Cloud Storage, and add an agent (e.g., using Antigravity or the ADK) that can query the app's own data — a strong “I understand both security and AI” signal for interviews.
-- Cost/ops automation agent: Build a small Cloud Run function or agent that consumes Active Assist recommendations and Billing budget alerts via Pub/Sub, then posts a digest to Slack/email — demonstrates FinOps + automation + AI-assisted ops thinking together.
+- **Cost/ops automation agent:** Build a small Cloud Run function or agent that consumes Active Assist recommendations and Billing budget alerts via Pub/Sub, then posts a digest to Slack/email — demonstrates FinOps + automation + AI-assisted ops thinking together.
 - Domain-specific analytics + agent (any domain you're genuinely interested in — sports, finance, e-commerce, health): ingest live/public data via Pub/Sub or scheduled Cloud Run jobs, store in BigQuery/Firestore, and layer a Gemini-powered natural-language query or insight agent on top. This is a great “tell me about a project” interview centerpiece because it touches data engineering, backend, and applied AI in one coherent story.
 > [!IMPORTANT]
-> **Under the Hood:** Recruiters and interview panels increasingly ask candidates to walk through an architecture diagram they built themselves — use Application Design Center or a simple diagram to document any project above; it doubles as interview material and hands-on practice with the exact AI-assisted tooling now tested on ACE.
+> ⚙️ **Under the Hood:** Recruiters and interview panels increasingly ask candidates to walk through an architecture diagram they built themselves — use Application Design Center or a simple diagram to document any project above; it doubles as interview material and hands-on practice with the exact AI-assisted tooling now tested on ACE.
 
 ## 14.3 Career Path: ACE → Where Next
 

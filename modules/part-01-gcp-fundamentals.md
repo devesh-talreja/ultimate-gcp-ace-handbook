@@ -2,7 +2,8 @@
 
 ## 1.1 The Core Mindset Shift
 
-> 📘 **AWS ↔ GCP Tip:** You already know: shared responsibility model, regions/AZs, IAM policies, VPC/subnet/route table thinking, autoscaling, managed databases, object storage tiers. That transfers almost 1:1. What's genuinely different is below — read this once, it'll save you dozens of confused moments.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** You already know: shared responsibility model, regions/AZs, IAM policies, VPC/subnet/route table thinking, autoscaling, managed databases, object storage tiers. That transfers almost 1:1. What's genuinely different is below — read this once, it'll save you dozens of confused moments.
 
 - Everything nests inside a hierarchy (Org → Folder → Project → Resource) more rigidly than AWS Organizations/OUs/Accounts — IAM and Org Policies *inherit down* this tree by default in GCP; in AWS you attach SCPs to OUs/accounts more à la carte.
 - The Project is GCP's atomic billing + API + quota boundary — roughly like an AWS Account, but far more lightweight to create (you'll spin up many).
@@ -16,7 +17,8 @@
 - Zone naming = region + letter, e.g. asia-south1-a, asia-south1-b, asia-south1-c.
 - Multi-region = a named grouping (e.g. “Asia”, “US”, “EU”) used mainly by Cloud Storage and BigQuery for automatic multi-region replication.
 - Not all products/machine types are available in all regions/zones — exam objective 1.1 explicitly calls out “verifying product availability across geographical locations” — use gcloud compute regions list / the region picker, don't assume.
-> 📘 **AWS ↔ GCP Tip:** Region ↔ Region, Zone ↔ Availability Zone — naming logic is nearly identical to AWS. The real difference: GCP's VPC is global (spans regions), while your AWS VPC mental model (one VPC = one region) does not carry over.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Region ↔ Region, Zone ↔ Availability Zone — naming logic is nearly identical to AWS. The real difference: GCP's VPC is global (spans regions), while your AWS VPC mental model (one VPC = one region) does not carry over.
 
 ## 1.3 Resource Hierarchy
 
@@ -24,9 +26,11 @@
 - IAM policies and Organization Policies set at a higher node are inherited down the hierarchy; you cannot override an Org Policy to be *more* permissive lower down (you can only restrict further, unless the policy explicitly allows exceptions).
 - A resource's effective IAM policy = union of policies set at every ancestor node + the resource's own policy. There is no “explicit deny” in classic IAM allow policies (deny wins only via IAM Deny Policies, a separate newer mechanism) — contrast with AWS where an explicit Deny in *any* attached policy always wins.
 - Projects have 3 identifiers: Project ID (globally unique, immutable, human-chosen, used in gcloud/API calls), Project Number (globally unique, auto-assigned, immutable), Project Name (mutable, not unique, just a display label).
-> ⚠️ **Common Mistake:** Exam loves testing this: you cannot reuse a deleted project's Project ID, and a deleted project stays in a recoverable ‘soft delete’ state for 30 days before permanent purge. During those 30 days you can restore it via gcloud projects undelete.
+> [!CAUTION]
+> **Common Mistake:** Exam loves testing this: you cannot reuse a deleted project's Project ID, and a deleted project stays in a recoverable ‘soft delete’ state for 30 days before permanent purge. During those 30 days you can restore it via gcloud projects undelete.
 
-> 📘 **AWS ↔ GCP Tip:** Org ↔ AWS Organization root. Folder ↔ roughly an OU (Organizational Unit), though GCP folders can nest arbitrarily deep vs. AWS's shallower OU trees. Project ↔ AWS Account (but far cheaper/faster to spin up — GCP encourages many small projects per team/environment; AWS encourages fewer, bigger accounts with more IAM subdivision inside).
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Org ↔ AWS Organization root. Folder ↔ roughly an OU (Organizational Unit), though GCP folders can nest arbitrarily deep vs. AWS's shallower OU trees. Project ↔ AWS Account (but far cheaper/faster to spin up — GCP encourages many small projects per team/environment; AWS encourages fewer, bigger accounts with more IAM subdivision inside).
 
 ## 1.4 Organization Policies (Org Policy Service)
 
@@ -34,7 +38,8 @@
 - Examples: restrict VM external IPs org-wide, restrict allowed regions for resource creation, disable service account key creation, enforce uniform bucket-level access.
 - Two policy types: boolean constraints (on/off) and list constraints (allow/deny specific values, e.g., allowed regions).
 - Policies inherit down the hierarchy; a child can only tighten, not loosen, unless the parent explicitly marks the constraint as “not enforced” for override.
-> 📘 **AWS ↔ GCP Tip:** Org Policy ↔ AWS Service Control Policies (SCPs). Key difference: SCPs are IAM-policy-shaped (allow/deny actions); GCP Org Policies are constraint-shaped (configuration guardrails) and are enforced *underneath* IAM — even a Project Owner cannot violate an Org Policy.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Org Policy ↔ AWS Service Control Policies (SCPs). Key difference: SCPs are IAM-policy-shaped (allow/deny actions); GCP Org Policies are constraint-shaped (configuration guardrails) and are enforced *underneath* IAM — even a Project Owner cannot violate an Org Policy.
 
 ## 1.5 Ways to Interact with GCP
 
@@ -48,7 +53,8 @@
 | Client Libraries / REST / RPC APIs | Programmatic access, per-service client libraries | AWS SDKs (boto3, etc.) |
 | Terraform / Config Connector | Infrastructure as Code | CloudFormation / CDK / Terraform |
 
-> 💡 **Exam Tip:** Cloud Shell comes preinstalled with the Cloud SDK (gcloud, gsutil, bq, kubectl) — exam objective 1.1 explicitly tests that you know you do not need to install anything locally to start working.
+> [!TIP]
+> **Exam Tip:** Cloud Shell comes preinstalled with the Cloud SDK (gcloud, gsutil, bq, kubectl) — exam objective 1.1 explicitly tests that you know you do not need to install anything locally to start working.
 
 ## 1.6 gcloud CLI Structure You Must Know Cold
 
@@ -62,14 +68,16 @@ gcloud auth login (human user) vs gcloud auth activate-service-account (service 
 
 - `gcloud components install/update` — manage optional CLI components (e.g., kubectl, beta commands).
 - Almost every command supports --project=, --format=, --filter= flags for scripting.
-> 💡 **Exam Tip:** A recurring exam pattern: “You're switching between an inactive GKE cluster's configuration — what's the fewest steps way to inspect it?” Know the difference between gcloud config configurations activate + gcloud config list (gcloud-level config) vs kubectl config use-context + kubectl config view (kubeconfig-level, K8s-native, works without touching gcloud config at all — often the *fewer-steps* answer when you just need cluster context info).
+> [!TIP]
+> **Exam Tip:** A recurring exam pattern: “You're switching between an inactive GKE cluster's configuration — what's the fewest steps way to inspect it?” Know the difference between gcloud config configurations activate + gcloud config list (gcloud-level config) vs kubectl config use-context + kubectl config view (kubeconfig-level, K8s-native, works without touching gcloud config at all — often the *fewer-steps* answer when you just need cluster context info).
 
 ## 1.7 Billing Fundamentals (Preview — full detail in Part 2)
 
 - A Billing Account pays for one or more Projects; a Project must be linked to an active Billing Account to use paid resources.
 - Billing Account IAM roles are separate from Project IAM roles (e.g., Billing Account Administrator vs. Project Owner).
 - $300 free trial credit (90 days) + an “always free” tier on 20+ products (e.g., limited BigQuery, Compute Engine e2-micro in specific US regions, Cloud Storage 5GB).
-> 📘 **AWS ↔ GCP Tip:** Billing Account ↔ AWS Payer/Management Account in Consolidated Billing. GCP separates “who pays” (Billing Account) from “who builds” (Project) more explicitly and lets you link/unlink projects to a billing account at any time — a lightweight version of AWS's linked-account billing relationship.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Billing Account ↔ AWS Payer/Management Account in Consolidated Billing. GCP separates “who pays” (Billing Account) from “who builds” (Project) more explicitly and lets you link/unlink projects to a billing account at any time — a lightweight version of AWS's linked-account billing relationship.
 
 ## 1.8 Mini AWS ↔ GCP Terminology Map (see Part 6 for the full Rosetta Stone)
 

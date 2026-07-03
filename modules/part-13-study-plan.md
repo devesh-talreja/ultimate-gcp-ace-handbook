@@ -13,7 +13,8 @@ You're not starting from zero — AWS SAA gives you the cloud vocabulary and men
 | 5 | Domain 4: IAM + Service Accounts (Part 5) + hands-on: Workload Identity Federation for GKE, custom roles, impersonation | Comfortable explaining IAM inheritance and deny-policy nuance from memory |
 | 6 | Full review: Part 6–11 (Rosetta Stone, scenarios, confusables, revision notes) + take 2–3 full-length practice exams | Consistently scoring 80%+ on practice exams |
 
-> 💡 **Exam Tip:** With an AWS SAA already in hand, 4–5 focused weeks is realistic instead of the 8–10 weeks Google suggests for complete beginners — but don't skip hands-on labs. The exam's scenario-driven style punishes “I read about it” over “I clicked through it once.”
+> [!TIP]
+> **Exam Tip:** With an AWS SAA already in hand, 4–5 focused weeks is realistic instead of the 8–10 weeks Google suggests for complete beginners — but don't skip hands-on labs. The exam's scenario-driven style punishes “I read about it” over “I clicked through it once.”
 
 ## 13.2 Hands-On Labs That Matter Most
 

@@ -9,7 +9,7 @@
 
 ## 📖 About This Handbook
 
-This study handbook and comprehensive revision notes were compiled during preparation for the **Google Cloud Associate Cloud Engineer (ACE)** certification, updated specifically for the **post-June 30, 2026 exam refresh**. These notes serve as a high-yield study companion to reinforce core concepts, memorize key command-line syntax, and highlight tricky exam traps.
+This study handbook and comprehensive revision notes were compiled during my preparation for the **Google Cloud Associate Cloud Engineer (ACE)** certification, updated specifically for the **post-June 30, 2026 exam refresh**. These notes serve as a high-yield study companion to reinforce core concepts, memorize key command-line syntax, and highlight tricky exam traps. I've used them heavily during revision — going through each section multiple times to reinforce concepts, memorize key differences, and drill exam traps, with AI helping me articulate and consolidate concepts as I studied.
 
 What makes these notes highly effective:
 * **Exam-Focused Callouts:** Styled with native GitHub blockquote alerts for clear visual hierarchy: green **Exam Tips** `[!TIP]` 💡, blue **AWS ↔ GCP Tips** `[!NOTE]` 📘, red **Common Mistakes** `[!CAUTION]` ⚠️, and purple **Under the Hood** `[!IMPORTANT]` ⚙️ insights.

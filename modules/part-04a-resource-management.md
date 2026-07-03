@@ -23,7 +23,8 @@ gcloud compute disks snapshot DISK --snapshot-names=NAME, gcloud compute images 
 ```
 
 - Use a Snapshot for backup/DR/cloning a data disk. Use an Image when you need a reusable, bootable golden template to stamp out new VMs (e.g., via an instance template).
-> 📘 **AWS ↔ GCP Tip:** Snapshot ↔ EBS Snapshot. Image ↔ AMI. Same conceptual split as AWS: snapshot = disk-level backup, image = bootable VM template.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Snapshot ↔ EBS Snapshot. Image ↔ AMI. Same conceptual split as AWS: snapshot = disk-level backup, image = bootable VM template.
 
 ### GKE Cluster & Workload Management
 
@@ -45,9 +46,11 @@ gcloud container clusters list / describe for cluster-level (not pod-level) info
 | Cluster Autoscaler / Node auto-provisioning | Number of nodes in a node pool (Standard clusters) | Unschedulable Pods (scale up) / underutilized nodes (scale down) |
 | GKE Autopilot Pod resource management | Both Pod sizing and node capacity, automatically | You just set Pod requests; Google right-sizes/schedules nodes behind the scenes — you don't manage HPA-vs-cluster-autoscaler tradeoffs directly, though HPA/VPA on the Pod spec still apply |
 
-> ⚠️ **Common Mistake:** Don't run HPA and VPA on CPU/memory for the same workload simultaneously — they can conflict (VPA resizing while HPA is counting on stable per-pod sizing). This exact gotcha appears in scenario questions about “my autoscaling is behaving unpredictably.”
+> [!CAUTION]
+> **Common Mistake:** Don't run HPA and VPA on CPU/memory for the same workload simultaneously — they can conflict (VPA resizing while HPA is counting on stable per-pod sizing). This exact gotcha appears in scenario questions about “my autoscaling is behaving unpredictably.”
 
-> 📘 **AWS ↔ GCP Tip:** HPA ↔ Kubernetes HPA on EKS (identical, it's upstream K8s). Cluster Autoscaler ↔ Cluster Autoscaler on EKS (also upstream). GKE Autopilot's combined Pod+node autoscaling ↔ Fargate's “you just set task size” model on EKS.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** HPA ↔ Kubernetes HPA on EKS (identical, it's upstream K8s). Cluster Autoscaler ↔ Cluster Autoscaler on EKS (also upstream). GKE Autopilot's combined Pod+node autoscaling ↔ Fargate's “you just set task size” model on EKS.
 
 ### Cloud Run: Deploying & Traffic Management
 
@@ -55,14 +58,16 @@ gcloud container clusters list / describe for cluster-level (not pod-level) info
 - Traffic splitting: route % of traffic across multiple revisions (canary/blue-green patterns) — gcloud run services update-traffic SERVICE --to-revisions=REV1=80,REV2=20, or route 100% to “latest” automatically.
 - Autoscaling config: min instances (avoid cold starts, costs more — keeps warm instances), max instances (cost/capacity ceiling), concurrency (requests served per instance simultaneously).
 - Same traffic-splitting/revision concepts apply to Cloud Run functions and can be mirrored in GKE via Service mesh/Ingress-level traffic splitting (e.g., using Gateway API weighted routing) — the exam may test recognizing that all three compute options support progressive rollout patterns, just via different mechanisms.
-> 📘 **AWS ↔ GCP Tip:** Cloud Run Revisions + traffic splitting ↔ conceptually like Lambda Aliases + weighted routing, or App Runner/CodeDeploy canary deployments — no single perfect AWS analogue, but the canary/blue-green pattern is universal.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud Run Revisions + traffic splitting ↔ conceptually like Lambda Aliases + weighted routing, or App Runner/CodeDeploy canary deployments — no single perfect AWS analogue, but the canary/blue-green pattern is universal.
 
 ### AI/Agent Workload Operations
 
 - Deploying an agent to Agent Runtime (Gemini Enterprise Agent Platform): package agent code (e.g., built with the Agent Development Kit) and deploy to the managed runtime, which handles scaling, sessions, and memory.
 - Notebooks: Gemini Enterprise Agent Platform Workbench (managed JupyterLab, integrated with Cloud Storage/BigQuery) and BigQuery's built-in notebook experience — both let data scientists/ML engineers work interactively against GCP data without standing up their own compute.
 - Cloud Workstations: fully managed, secure, browser-or-IDE-accessible cloud development environments (like a persistent, centrally-managed devbox) — useful when you need consistent, locked-down dev environments across a team without local setup.
-> 📘 **AWS ↔ GCP Tip:** Agent Runtime ↔ Amazon Bedrock AgentCore Runtime. Workbench notebooks ↔ SageMaker Notebook Instances/Studio. Cloud Workstations ↔ AWS Cloud9 / recently, Amazon-managed dev environments in CodeCatalyst.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Agent Runtime ↔ Amazon Bedrock AgentCore Runtime. Workbench notebooks ↔ SageMaker Notebook Instances/Studio. Cloud Workstations ↔ AWS Cloud9 / recently, Amazon-managed dev environments in CodeCatalyst.
 
 ## 4.2 Managing Storage & Data Solutions
 
@@ -71,7 +76,8 @@ gcloud container clusters list / describe for cluster-level (not pod-level) info
 - IAM (recommended) vs ACLs (legacy, object/bucket-level fine-grained): IAM is project/bucket-level and simpler to reason about at scale; ACLs give per-object grants but are harder to audit — Uniform bucket-level access disables ACLs entirely and enforces IAM-only (Google's recommended default for new buckets).
 - Signed URLs: time-limited, cryptographically signed URLs granting temporary access to a specific object without requiring the requester to have a Google identity/IAM grant — classic use: temporary download/upload links for external users.
 - Public access prevention: an org-policy-enforceable setting that blocks a bucket from ever being made public, regardless of IAM/ACL misconfigurations — a strong guardrail against accidental public buckets.
-> 📘 **AWS ↔ GCP Tip:** Signed URL ↔ S3 Pre-signed URL (same concept, same name pattern). Uniform bucket-level access ↔ disabling ACLs / “Bucket owner enforced” setting in S3. Public access prevention ↔ S3 Block Public Access.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Signed URL ↔ S3 Pre-signed URL (same concept, same name pattern). Uniform bucket-level access ↔ disabling ACLs / “Bucket owner enforced” setting in S3. Public access prevention ↔ S3 Block Public Access.
 
 ### Lifecycle Management, Cost, Backup/Restore
 
@@ -89,14 +95,16 @@ gcloud container clusters list / describe for cluster-level (not pod-level) info
 - An AI-assisted, org-wide dashboard for database fleet health across Cloud SQL, Spanner, AlloyDB, Bigtable, Firestore (and more) — aggregates availability, security, compliance, performance, and cost signals from your projects + Security Command Center into one pane.
 - Includes a Gemini-powered chat to ask natural-language questions about fleet health and get remediation recommendations; supports custom dashboard views and alerting policies on fleet-wide signals.
 - Exam signal: any scenario about “centrally monitor database health/compliance/security posture across many projects and database engines” → Database Center, not a bespoke per-database monitoring build.
-> 📘 **AWS ↔ GCP Tip:** No single tight AWS equivalent — closest is a combination of RDS/DynamoDB/Aurora CloudWatch dashboards + AWS Config + Trusted Advisor, but Database Center's unified cross-engine single-pane view (with AI chat) is a more integrated GCP-native experience.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** No single tight AWS equivalent — closest is a combination of RDS/DynamoDB/Aurora CloudWatch dashboards + AWS Config + Trusted Advisor, but Database Center's unified cross-engine single-pane view (with AI chat) is a more integrated GCP-native experience.
 
 ### Customer-Managed Encryption Keys (CMEK)
 
 - By default, GCP encrypts data at rest with Google-managed encryption keys automatically — no config needed.
 - CMEK: you create/control the key in Cloud KMS (Key Management Service), and the service (Cloud Storage, BigQuery, Compute Engine disks, Cloud SQL, etc.) uses your key to encrypt the data — gives you key rotation control and the ability to revoke access by disabling/destroying the key, which immediately makes the data unreadable.
 - CMEK vs. CSEK: CMEK keys live in Cloud KMS (Google-hosted, IAM-governed); Customer-Supplied Encryption Keys (CSEK) are keys you generate and pass in on every API call — Google never stores them, higher operational burden, used only for the strictest “Google must never hold the key” requirements.
-> 📘 **AWS ↔ GCP Tip:** CMEK ↔ AWS KMS Customer Managed Keys (SSE-KMS). CSEK ↔ SSE-C (customer-provided keys, not stored by AWS). The naming logic (Google-Managed ≈ SSE-S3, Customer-Managed ≈ SSE-KMS, Customer-Supplied ≈ SSE-C) maps almost exactly to the S3 encryption model.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** CMEK ↔ AWS KMS Customer Managed Keys (SSE-KMS). CSEK ↔ SSE-C (customer-provided keys, not stored by AWS). The naming logic (Google-Managed ≈ SSE-S3, Customer-Managed ≈ SSE-KMS, Customer-Supplied ≈ SSE-C) maps almost exactly to the S3 encryption model.
 
 ## 4.3 Managing Networking Resources
 
@@ -105,9 +113,11 @@ gcloud container clusters list / describe for cluster-level (not pod-level) info
 - Custom static routes: add routes in a VPC to direct traffic (e.g., to a NAT gateway, a next-hop VM/appliance, or on-prem via VPN/Interconnect) — every VPC has default routes for the internet gateway and subnet-local traffic; custom routes extend this.
 - Cloud DNS: managed authoritative DNS — public zones (internet-facing) and private zones (internal-only resolution within one or more VPCs). Supports DNS forwarding, peering, and DNSSEC.
 - Cloud NAT: gives instances without external IPs outbound internet access (e.g., for OS updates, pulling packages) without exposing them to inbound internet traffic — fully managed, no NAT gateway VM to size/patch/scale yourself.
-> 💡 **Exam Tip:** Static IP that changes on VM restart is a classic “why did my DNS/whitelist break” trap — the fix is always reserve a static (external or internal) address and assign it, not “just restart it correctly.”
+> [!TIP]
+> **Exam Tip:** Static IP that changes on VM restart is a classic “why did my DNS/whitelist break” trap — the fix is always reserve a static (external or internal) address and assign it, not “just restart it correctly.”
 
-> 📘 **AWS ↔ GCP Tip:** Cloud DNS ↔ Route 53. Cloud NAT ↔ AWS NAT Gateway — near-identical purpose, but Cloud NAT requires zero provisioning of a gateway instance/resource sitting in a subnet (it's not an object you place in your topology the way a NAT Gateway is); you just enable it on a Cloud Router. Static IP behavior (ephemeral-by-default, must reserve to persist) is the same mental model as an AWS EIP not being auto-attached to a stopped/relaunched instance.
+> [!NOTE]
+> **AWS ↔ GCP Tip:** Cloud DNS ↔ Route 53. Cloud NAT ↔ AWS NAT Gateway — near-identical purpose, but Cloud NAT requires zero provisioning of a gateway instance/resource sitting in a subnet (it's not an object you place in your topology the way a NAT Gateway is); you just enable it on a Cloud Router. Static IP behavior (ephemeral-by-default, must reserve to persist) is the same mental model as an AWS EIP not being auto-attached to a stopped/relaunched instance.
 
 - Managing firewall rules / Cloud NGFW policies day-2: adding/removing/re-prioritizing rules, updating Tags/service-account targets, and auditing rule hit counts via Firewall Rules Logging (see 4.4) to find unused or overly-permissive rules.
 
